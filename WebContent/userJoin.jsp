@@ -20,6 +20,7 @@
       	</button>
     	<div class="collapse navbar-collapse" id="navbar">
 	    	<ul class="navbar-nav mr-auto">
+	    		<li class ="nav-item active">
 		            <a class="nav-link" href="index.jsp">메인</a>
 		        </li>
 		        <li class="nav-item dropdown">
@@ -28,7 +29,7 @@
 		            </a>
 		            <div class="dropdown-menu" aria-labelledby="dropdown">
 		            	<a class="dropdown-item" href="userLogin.jsp">로그인</a>
-		              	<a class="dropdown-item" href="userRegister.jsp">회원가입</a>
+		              	<a class="dropdown-item" href="userJoin.jsp">회원가입</a>
 		              	<a class="dropdown-item" href="userLogout.jsp">로그아웃</a>
 		            </div>
 		    	</li>
@@ -42,7 +43,7 @@
     
     <section class="container mt-3" style="max-width: 560px;">
     	<!-- 사용자가 로그인을 요청했을 떄 로그인 정보는 userLoginAction.jsp 로 이동한다. -->
-    	<form method="post" action="./">
+    	<form method="post" action="./userRegisterAction.jsp">
     		<div class="form=group">
     			<label>아이디</label>
     			<input type="text" name="userID" class="form-control">
