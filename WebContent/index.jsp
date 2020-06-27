@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
+<%@ page import="user.UserDAO" %>
 <!doctype html>
 <html>
  	<head>
@@ -13,6 +14,32 @@
 	</head>
   
 <body>
+<%
+
+	String userID = null;
+	if(session.getAttribute("userID") != null) { // 유저 session값이 존재한다면
+		userID = (String) session.getAttribute("userID"); 
+	}
+	if(userID == null) { // 로그인 하지 않은 상태라면
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('로그인을 해주세요.');");
+		script.println("location.href = 'userLogin.jsp'");
+		script.println("</script>");
+		script.close();	
+	}
+	// 회원가입만한 사용자가 이메일 인증을 했는지 확인한다.
+	boolean emailChecked = new UserDAO().getUserEmailChecked(userID);
+	if(emailChecked == false) {	// 이메일 인증이 안된 사람은
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("location.href = 'emailSendConfirm.jsp'"); // 이메일 인증페이지로 이동시킨다.
+		script.println("</script>");
+		script.close();		
+		return;
+	}
+%>	
+
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
     	<a class="navbar-brand" href="index.jsp">강의평가 웹 사이트</a>
     	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
@@ -28,9 +55,19 @@
 		             	 회원 관리
 		            </a>
 		            <div class="dropdown-menu" aria-labelledby="dropdown">
+<%
+	if(userID == null){
+%>
 		            	<a class="dropdown-item" href="userLogin.jsp">로그인</a>
 		              	<a class="dropdown-item" href="userJoin.jsp">회원가입</a>
+<% 
+	}
+	else{	// 로그인한 상태면
+%>		              	
 		              	<a class="dropdown-item" href="userLogout.jsp">로그아웃</a>
+<% 
+	}
+%>
 		            </div>
 		    	</li>
 	        </ul>
@@ -58,7 +95,7 @@
     	<div class="card bg-light mt-3">
 	        <div class="card-header bg-light">
 	          	<div class="row">
-	            	<div class="col-8 text-left">컴퓨터개론&nbsp;<small>정택규</small></div>
+	            	<div class="col-8 text-left">알고리즘&nbsp;<small>정택규</small></div>
 	            	<div class="col-4 text-right">
 	              		종합 <span style="color: red;">A</span>
 	            	</div>
@@ -66,9 +103,9 @@
 	        </div>
 	        <div class="card-body">
 	          	<h5 class="card-title">
-	            	정말 좋은 강의에요.&nbsp;<small>(2017년 가을학기)</small>
+	            	정말 좋은 강의에요.&nbsp;<small>(2017년 2학기)</small>
 	          	</h5>
-	          	<p class="card-text">강의가 많이 널널해서, 솔직히 많이 배운 건 없는 것 같지만 학점도 잘 나오고 너무 좋은 것 같습니다.</p>
+	          	<p class="card-text">알고리즘 전반에 대해 배울 수 있어서 좋았습니다.</p>
 	          	<div class="row">
 	            	<div class="col-9 text-left">
 					              성적 <span style="color: red;">A</span>
@@ -87,7 +124,7 @@
     	<div class="card bg-light mt-3">
 	        <div class="card-header bg-light">
 	          	<div class="row">
-		        	<div class="col-8 text-left">컴퓨터그래픽스&nbsp;<small>홍길동</small></div>
+		        	<div class="col-8 text-left">자료구조&nbsp;<small>홍길동</small></div>
 		            <div class="col-4 text-right">
 		              	종합 <span style="color: red;">B</span>
 		            </div>
@@ -95,9 +132,9 @@
 	        </div>
 	        <div class="card-body">
 	        	<h5 class="card-title">
-	            	나쁘지 않은 것 같습니다.&nbsp;<small>(2017년 여름학기)</small>
+	            	좋은 강의였습다.&nbsp;<small>(2017년 1학기)</small>
 	          	</h5>
-	          	<p class="card-text">컴퓨터그래픽스를 처음 배웠는데, 상당히 재미있었던 것 같아요.</p>
+	          	<p class="card-text">자료구조에 대해 알 수 있어서 좋았고 알아가는 과정이 상당히 재미있었습니다.</p>
 	          	<div class="row">
 	            	<div class="col-9 text-left">
 					 	성적 <span style="color: red;">B</span>
@@ -116,7 +153,7 @@
     	<div class="card bg-light mt-3">
 	        <div class="card-header bg-light">
 	        	<div class="row">
-		        	<div class="col-8 text-left">알고리즘&nbsp;<small>이순신</small></div>
+		        	<div class="col-8 text-left">운영체제&nbsp;<small>이순신</small></div>
 		            <div class="col-4 text-right">
 		             	 종합 <span style="color: red;">A</span>
 		            </div>
@@ -124,9 +161,9 @@
 	        </div>
 	        <div class="card-body">
 	        	<h5 class="card-title">
-	          		강의력이 제일 좋은 강의입니다.&nbsp;<small>(2017년 2학기)</small>
+	          		강의력이 제일 좋은 강의입니다.&nbsp;<small>(2018년 2학기)</small>
 	          	</h5>
-	          <p class="card-text">알고리즘 강의 가르치시는 교수님들 중에서 최고로 잘 가르치십니다.</p>
+	          <p class="card-text">운영체제 강의 가르치시는 교수님들 중에서 최고로 잘 가르치십니다.</p>
 	          <div class="row">
 	          	<div class="col-9 text-left">
 				         성적 <span style="color: red;">A</span>

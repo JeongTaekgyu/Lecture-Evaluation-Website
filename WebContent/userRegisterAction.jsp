@@ -5,10 +5,24 @@
 <%@ page import="java.io.PrintWriter"%>
 <%
 	request.setCharacterEncoding("UTF-8");
+
+	// 현재 로그인이 된 상태라면 회원가입을 하지 못하도록 막아줘야한다.
 	String userID = null;
+	if(session.getAttribute("userID") != null) { // 유저 session값이 존재한다면
+		userID = (String) session.getAttribute("userID"); 
+	}
+	if(userID != null) { // 로그인을 한 상태라면
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('로그인이 된 상태이기 때문에 회원가입을 할 수 없습니다.(userRegisterAction)');");
+		script.println("location.href = 'index.jsp'");
+		script.println("</script>");
+		script.close();	
+	}
 	String userPassword = null;
 	String userEmail = null;
 
+	
 	if(request.getParameter("userID") != null) {
 		userID = (String) request.getParameter("userID");
 	}
