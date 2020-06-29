@@ -19,19 +19,19 @@ public class EvaluationDAO {
 		try {
 			conn = DatabaseUtil.getConnection();
 			
-			pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, evaluationDTO.getUserID());
-			pstmt.setString(2, evaluationDTO.getLectureName());
-			pstmt.setString(3, evaluationDTO.getProfessorName());
-			pstmt.setInt(4, evaluationDTO.getLectureYear());
-			pstmt.setString(5, evaluationDTO.getSemesterDivide());
-			pstmt.setString(6, evaluationDTO.getLectureDivide());
-			pstmt.setString(7, evaluationDTO.getEvaluationTitle());
-			pstmt.setString(8, evaluationDTO.getEvaluationContent());
-			pstmt.setString(9, evaluationDTO.getTotalScore());
-			pstmt.setString(10, evaluationDTO.getCreditScore());
-			pstmt.setString(11, evaluationDTO.getComfortableScore());
-			pstmt.setString(12, evaluationDTO.getLectureScore());
+			pstmt = conn.prepareStatement(SQL);		// 크로스 사이트 스크립트 공격(웹페이지에 악성 스크립트를 삽입해 공격)에 방어하기 위해 특정 스크립트를 치환해준다.
+			pstmt.setString(1, evaluationDTO.getUserID().replace("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
+			pstmt.setString(2, evaluationDTO.getLectureName().replace("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
+			pstmt.setString(3, evaluationDTO.getProfessorName().replace("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
+			pstmt.setInt(4, evaluationDTO.getLectureYear());	// 숫자이기 때문에 굳이 치환안한다.
+			pstmt.setString(5, evaluationDTO.getSemesterDivide().replace("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
+			pstmt.setString(6, evaluationDTO.getLectureDivide().replace("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
+			pstmt.setString(7, evaluationDTO.getEvaluationTitle().replace("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
+			pstmt.setString(8, evaluationDTO.getEvaluationContent().replace("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
+			pstmt.setString(9, evaluationDTO.getTotalScore().replace("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
+			pstmt.setString(10, evaluationDTO.getCreditScore().replace("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
+			pstmt.setString(11, evaluationDTO.getComfortableScore().replace("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
+			pstmt.setString(12, evaluationDTO.getLectureScore().replace("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\r\n", "<br>"));
 
 			// sql문 결과를 바로 반환한다.(insert 한번하면 1이 반환)
 			return pstmt.executeUpdate();
